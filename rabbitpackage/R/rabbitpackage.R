@@ -68,6 +68,55 @@ read_fas<-function(accn){
   return (df)
 }
 
+#' base frequency
+#'
+#' @param fasta 
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' x<-read_fas("flu_seq.fas")
+#' y<-base_freq(x)
+base_freq<-function(fasta){
+  seq_num <- length(fasta$id)
+  cat(seq_num,"sequences in total","\n","\n")
+  cat("#Labels:","\n")
+  id<-fasta$id
+  writeLines(id)
+  ids<-c()
+  len<-c()
+  for (i in 1:seq_num){
+    ids[i]<-unlist(strsplit(id[i],split = "[|]"))[1]
+    len[i]<-nchar(fasta$seq[i])
+  }
+  df<-data.frame(id=ids,length=len)
+  for (i in 1:seq_num){
+    count_A<-0
+    count_T<-0
+    count_G<-0
+    count_C<-0
+    s<-toupper(unlist(strsplit(fasta$seq[i],"")))
+    for (j in 1:length(s)){
+      if(s[j]=='A'){count_A=count_A+1}
+      if(s[j]=='T'){count_T=count_T+1}
+      if(s[j]=='G'){count_G=count_G+1}
+      if(s[j]=='C'){count_C=count_C+1}
+    }
+    m<-length(s)
+    df$A[i]<-count_A/m
+    df$T[i]<-count_T/m
+    df$G[i]<-count_G/m
+    df$C[i]<-count_C/m
+  }
+  rownames(df)<-df[,1]
+  tb<-df[,-1]
+  res<-df[,-(1:2)]
+  writeLines(paste0("\n","#Base composition:"))
+  print(tb)
+  return (res)
+}
+
 #' Global alignment
 #'
 #' @param x seq1
