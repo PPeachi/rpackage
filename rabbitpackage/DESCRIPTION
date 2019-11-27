@@ -1,0 +1,9 @@
+Package: rabbitpackage
+Title: a tool for deal with my study
+Version: 0.0.0.9000
+Authors@R: person("chen", "xinrui", email = "hui1303@i.smu.edu.cn", role = c("aut", "cre"))
+Description: my tool to deal with my study
+License: GPL
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.0
